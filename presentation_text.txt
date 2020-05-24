@@ -1,0 +1,69 @@
+In this presentation I will describe definition and usage of regular expressions and their structure. 
+What are Character Classes, Character Escapes and Escapes
+What are Groups and Backreferences
+What Features do regular expressions have. 
+What mean and do Flags and Anchors.
+
+Regular expressions are patterns used to match character combinations in string. 
+Regular expression can be used in situations such as input validation or if we need to find and replace some text like private emails or phone numbers. 
+
+In JavaScript regexes are used with the match(), marchAll(), search(), replace() and split() methods of String object and test() and exec() methods of RegExp object. 
+
+Regular expressions are structured as rules and flags. Rules should be enclosed between slashes and flags should be positioned after rules. 
+First that we need to know about regular expressions that they are case-sensitive by default. 
+So If we need to find a concrete word in text we can put this word into regular expression and regex will match this word literally. 
+
+Next example shows how string method match() works with regex. G flag means that regex matches all string and without this flag regex doesn’t match anything beyond first match. 
+
+
+Character classes. It is possible to match character from within a set of characters. If we need to match for example vowels we put them into square brackets. 
+Next shortcuts show how to match letters or digits. But all these expressions matches only one character. 
+
+Character escapes act as shorthands for some common character classes. 
+Digit character matches digits from zero to nine. 
+Word character matches letter of the alphabet or digit or underscore
+Whitespace character matches space, tab, carriage return, new line and other space characters. It is useful in split method. 
+To match any character use dot (.). 
+
+Escapes. 
+In regex some characters that have special meanings use backslash for “Escape” these characters. If we need to match dot literally we need to use backslash before dot. 
+
+Groups are used  to group components of regular expressions by putting them in parens. 
+Backreference looks like backslash and number of group after it. By using back references we can duplicate group of characters as many times as we need. 
+
+Next example shows how using groups and back references we can match grayscale colors. 
+
+Repetition
+There are several ways to represent repetition in regex. 
+First one is by using question character. It means that current character can be in string or not. 
+Second is by using asterisk that means that we wish to zero or more same characters. Next example shows that regex with asterisk matches string with repetitions and without them. 
+Plus character means that character may occur in string one or more times. 
+A number between curly braces means that regex should match string where character occurs exactly this number of times. 
+Two numbers in curly braces separated by coma means minimum and maximum  times that character occurs in a string in a row. First number can’t be higher that second. 
+Number and coma after it in curly braces means that regex should match string with character that occurs this number of times or more. 
+String method match returns array with string, that contains maximum count of repeated characters 
+
+
+Alternation 
+Alternation allows to parse one or several phrases
+We can use alternation by putting pipe in between characters, words  or groups in regex. 
+Example shows how we can parse phrases that contains one of two words. 
+If we don’t put our variants in parens, match method return all that  literally match rules before or after pipe. 
+Next example shows how we can parse hex colors using alternation. As we know that string must contain hash and can contain 3 or 6 characters after it. We can describe it in regex. 
+Flags. Flags allow to put regexes into different modes. 
+g -  means Global. If this flag isn’t enabled regex doesn’t match anything beyond the first match. 
+i - means case-insensitive makes regex case insensitive in matching. 
+M - means multiline flag, that allows to match “multilines string”
+S - dot-all - matches any character except new lines. It didn’t support in Java Script prior to ES 2018. 
+U - unicode flag. It means that regex and input string will be interpreted in a unicode-aware way. 
+
+Anchors. 
+Anchors don’t match anything by themselves, but they place restrictions on where matches may appear. ^ caret character means beginning of line and makes it necessary for the rest of the regex match from the beginning of the string. 
+Dollar character means end of line and it is analogues to caret character. 
+The caret character and dollar character anchors are often used together to ensure that the regular expression matches the entire string
+
+In this presentation regexes were described. Regular expression is a search pattern. 
+Using regexes we can solve problems such as parsing telephone numbers, or find and replace something in text.  
+Regexes can match repeated words or can match words from variants.  
+By using regular expressions we can describe rules how should searching words look like. 
+And here some useful links to learn and try regular expressions. 
