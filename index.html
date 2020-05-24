@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="node_modules/reveal.js/dist/theme/league.css">
+    <title>Regular Expressions</title>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+          <section> <h2>Regular Expressions</h2></section>
+          <section>
+            <p>Contents</p>
+            <ul>
+              <li>Definition and Usage</li>
+              <li>Structure</li>
+              <li>Character Classes, Character Escapes and Escapes</li>
+              <li>Groups and Backreferences</li>
+              <li>Features</li>
+              <li>Flags and Anchors</li>
+            </ul>
+          </section>
+
+          <section>
+            <section>
+              <h2>Definition</h2>
+              <p>Regular expressions are patterns used to match charachter combinations in strings</p>
+          </section>
+          <section>
+            <p>Regex can be used in:</p>
+            <ul>
+              <li>input validation</li>
+              <li>find-replace operations</li>
+              <li>advanced string manipulation</li>
+              <li>file search or rename</li>
+              <li>...</li>
+            </ul>
+          </section>
+          <section>
+            <p>Regex can't be used in:</p>
+            <ul>
+              <li>parsing XML or HTML</li>
+              <li>exactly matching dates</li>
+              <li>...</li>
+            </ul>
+          </section>
+          <section>
+            <p>In JavaScript regular expressions are used with:</p>
+            <ul>
+              <li> RegeExp object methods:
+                <ul>
+                  <li>test()</li>
+                  <li>exec()</li>
+                </ul>
+              </li>
+              <li>
+                String object methids: 
+                <ul>
+                  <li>match() and matchAll()</li>
+                  <li>replace()</li>
+                  <li>search()</li>
+                  <li>split()</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          </section>
+          <section>
+            <section>
+              <h2>Structure</h2>
+              <p>/rules/flags</p>
+            </section>
+            <section>
+              <p>Regexes are case-sensitive</p>
+              <pre><code>
+                "Hello".match(/Hello/g); // ["Hello"]
+                "Hello".match(/hello/g); // null
+              </code></pre>
+            </section>
+            <section>
+              <pre><code>
+                "Hello".match(/e/g); // ["e"]
+                "Hello".match(/ll/g); // ["ll"]
+                "Hello".match(/l/g); // ["l", "l"]
+                "Zero means 0".match(/0/g); // ["0"]
+              </code></pre>
+            </section>
+          </section>
+
+          <section>
+            <section>
+              <h2>Character Classes</h2>
+            </section>
+            <section>
+              <pre><code>
+                "pet".match(/[aeiou]/g); // ["e"]
+                "float". match(/[aeiou]/g) // ["o", "a"]
+              </code></pre>
+              <pre><code>
+                "pet".match(/p[aeiou]t/g); // ["pet"]
+                "spot". match(/p[aeiou]t/g); // ["pot"]
+                "bat".match(/p[aeiou]t/g); // null
+              </code></pre>
+            </section>
+            <section>
+              <p>Shortcuts</p>
+              <ul>
+                <li>[a-z] - lowercase letter</li>
+                <li>[a-zA-Z] - lowercase or uppercase letter</li>
+                <li>[0-9] - digit</li>
+                <li>[a-zA-Z0-9] - lowercase or uppercase letter or digit</li>
+              </ul>
+              <p>These expressions matches only one character</p>
+            </section>
+            <section>
+              <pre><code>
+                'Zero means 0'.match(/[a-z]/g); 
+                // ["e", "r", "o", "m", "e", "a", "n", "s"]
+  
+                'Zero means 0'.match(/[A-Z]/g); 
+                // ["Z"]
+  
+                'Zero means 0'.match(/[a-zA-Z]/g); 
+                // ["Z", "e", "r", "o", "m", "e", "a", "n", "s"]
+  
+                'Zero means 0'.match(/[0-9]/g); 
+                // ["0"]
+              </code></pre>
+            </section>
+            <section>
+              <h2>Charcter Escapes</h2>
+              <p>Character escapes act as shorthands for some common character classes.</p>
+            </section>
+            <section>
+              <ul>
+                <li>Digit character — \d (equivalent to [0-9]) </li>
+                <li>Word character — \w (equivalent to [a-zA-Z0-9_])</li>
+                <li>Whitespace character — \s</li>
+                <li>Any character — .</li>
+              </ul>
+            </section>
+            <section>
+              <pre><code>
+                'Zero means 0'.match(/\d/g); // ["0"]
+  
+                'Zero means 0'.match(/\w/g); 
+                // array of all letters and digits
+  
+                'Zero means 0'.match(/\s/g); 
+                // [" ", " "]
+  
+                'Zero means 0'.match(/./g); 
+                // array of all characters including spaces
+              </code></pre>
+            </section>
+            <section>
+              <h2>Escapes</h2>
+            </section>
+            <section>
+              <p>Use \ for "escape" characters with special meanings</p>
+              <pre><code>
+                "(parens)".match(/\(parens\)/g); // ["(parens)"]
+                "(parens)".match(/(parens)/g); // ["parens"]
+  
+                "Cat.".match(/\./g); // ["."]
+                "Cat.".match(/./g); // ["C", "a", "t", "."]
+              </code></pre>
+            </section>
+          </section>
+
+          <section>
+            <section>
+              <h2>Groups</h2>
+            </section>
+            <section>
+              <p>Groups are used to grooup components of regex by putting them in parens</p>
+              <p>Used to:</p>
+              <ul>
+                <li> Extract subsets of matches</li>
+                <li>Repeat groups</li>
+                <li>Refer to previously matched substrings</li>
+                <li>Enhance readability</li>
+                <li>Allow complex alternations</li>
+              </ul>
+            </section>
+            <section>
+              <p>Backreferences allow referring to previously captured substrings.</p>
+              <pre><code>
+                "#808080".match(/#([A-F0-9][A-F0-9])\1\1/g); 
+                // ["#808080"]
+  
+                "#BFBFBF".match(/#([A-F0-9][A-F0-9])\1\1/g); 
+                // ["#BFBFBF"]
+              </code></pre>
+            </section>
+          </section>
+        
+
+          <section>
+            <section>
+              <h2>Features</h2>
+            </section>
+            <section>
+              <p><b>Repetition</b></p>
+              <p>1. "?" - making character optional</p>
+                  <pre><code>
+                    "aa".match(/a?/g);
+                    //["a", "a", ""]
+                    
+                    "a".match(/aa?/g);
+                    // ["a"]
+                    
+                    "".match(/a?/g);
+                   //  [""]
+                  </code></pre>
+            </section>
+            <section>
+              <p><b>Repetition</b></p>
+              <p>2. "*" - match zero or more</p>
+                  <pre><code>
+                    "a".match(/a*/g);
+                    // ["a", ""]
+                    
+                    "aaaaa".match(/a*/g);
+                    // ["aaaaa", ""]
+  
+                    "".match(/a*/g);
+                    // [""]
+                  </code></pre>
+            </section>
+            <section>
+              <p><b>Repetition</b></p>
+              <p>3. "+" - match one or more</p>
+                  <pre><code>
+                  "abracadabra".match(/a+/g);
+                  // ["a", "a", "a", "a", "a"]
+                  
+                  "a".match(/a+/g);
+                  // ["a"]
+                  
+                  "".match(/a+/g);
+                  // null
+                  </code></pre>
+            </section>
+            <section>
+              <p><b>Repetition</b></p>
+              <p>4. {x} - match exactly x times</p>
+                  <pre><code>
+                    "a".match(/a{3}/g);
+                    // null
+  
+                    "aaa".match(/a{3}/g);
+                    // ["aaa"]
+  
+                    "aaaaa".match(/a{3}/g);
+                    // ["aaa"]
+  
+                    "ababab".match(/a{3}/g);
+                    // null
+                  </code></pre>
+            </section>
+            <section>
+              <p><b>Repetition</b></p>
+              <p>5. {min, max} - match between min and max times</p>
+                  <pre><code>
+                    "aaaaa".match(/a{2,5}/g);
+                    // ["aaaaa"]
+  
+                    "aa".match(/a{1,5}/g);
+                    // ["aa"]
+                    
+                    "aaaaa".match(/a{5,5}/g);
+                    //["aaaaa"]
+                  </code></pre>
+            </section>
+            <section>
+              <p><b>Repetition</b></p>
+              <p>6. {x, } - match at least x times</p>
+                  <pre><code>
+                    "aaa".match(/a{3,}/g);
+                    // ["aaa"]
+  
+                    "aaaaaaa".match(/a{3,}/g);
+                    // ["aaaaaaa"]
+                    
+                    "".match(/a{3,}/g);
+                    // null
+                    
+                    "aa".match(/a{3,}/g); 
+                    // null
+                  </code></pre>
+            </section>
+            <section>
+              <h2>Alternation</h2>
+            </section>
+            <section>
+              <p>Alternation allows to parse one or several phrases</p>
+              <p> "|"  - alternation</p>
+              <pre><code>
+                "eat pie".match(/eat pie|apple/g);
+                // ["eat pie"]
+                
+                "eat apple".match(/eat pie|apple/g);
+                // ["apple"]
+                
+                "eat apple".match(/eat (pie|apple)/g);
+                // ["eat apple"]
+              </code></pre>
+            </section>
+            <section>
+              <p>Alternation</p>
+              <pre><code>
+                "#AE25AE".match(/#([0-9A-F]{6}|[0-9A-F]{3})/g);
+                // ["#AE25AE"]
+  
+                "#FFF".match(/#([0-9A-F]{6}|[0-9A-F]{3})/g);
+                // ["#FFF"]
+  
+                "How about #73FA79?".match(/#([0-9A-F]{6}|[0-9A-F]{3})/g);
+                // ["#73FA79"]
+              </code></pre>
+            </section>
+          </section>
+          
+          <section>
+            <section>
+              <h2>Flags and Anchors</h2>
+            </section>
+            <section>
+              <p><b>Flags</b> allow to put regex into different "modes"</p>
+              <ul>
+                <li>g - Global</li>
+                <li>i - Case-insensitive</li>
+                <li>m - multiline</li>
+                <li>s - Dot-all</li>
+                <li>u - Unicode</li>
+              </ul>
+            </section>
+            <section>
+              <p>Anchors</p>
+              <ul>
+                <li> ^ - begining of the string</li>
+                <li>$ - end of the string</li>
+              </ul>
+              <p>The ^ and $ anchors are often used together to ensure that the regular expression matches the entire string</p>
+  
+              <pre><code>
+                "eat apple".match(/^eat/g);
+                // ["eat"]
+  
+                "eat apple".match(/eat$/g);
+                // null
+
+                "eat apple".match(/^eat$/g);
+                // null
+                
+                "eat apple".match(/^eat apple$/g);
+                // ["eat apple"]
+              </code></pre>
+            </section>
+          </section>
+
+          <section>
+            <p>Useful Links</p>
+            <ul>
+              <li><a href="https://refrf.shreyasminocha.me/">Regular Expressions for Regular Folk</a></li>
+              <li><a href="https://regexr.com/">Regexr.com</a></li>
+              <li><a href="http://regextutorials.com/">Regex Tutorials</a></li>
+              <li><a href="https://regexone.com/">RegexOne</a></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+      <script src="node_modules/reveal.js/dist/reveal.js"></script>
+      <script>
+        Reveal.initialize({
+          plugins: [ RevealHighlight ]
+        });
+      </script>
+</body>
+</html>
